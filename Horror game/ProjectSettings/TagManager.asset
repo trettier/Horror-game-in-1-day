@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Lighter
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -49,6 +51,12 @@ TagManager:
     locked: 0
   - name: Walls
     uniqueID: 1957001593
+    locked: 0
+  - name: Ceiling
+    uniqueID: 3614834519
+    locked: 0
+  - name: UI
+    uniqueID: 573110045
     locked: 0
   m_RenderingLayers:
   - Default

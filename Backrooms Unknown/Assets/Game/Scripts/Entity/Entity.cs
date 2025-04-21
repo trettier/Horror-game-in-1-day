@@ -19,14 +19,6 @@ public abstract class Entity : MonoBehaviour
     protected Material material;
 
 
-    [Header("Entity interfaces")]
-    protected IPlayerMovementController _playerMovementController;
-
-    [Header("AudioEffects")]
-    [SerializeField] protected AudioSource takeDamageSound;
-    [SerializeField] protected AudioSource footstepSound;
-
-
     public void Start()
     {
         animator = GetComponent<Animator>();
@@ -35,8 +27,10 @@ public abstract class Entity : MonoBehaviour
         collider = GetComponent<CapsuleCollider2D>();
         material = spriteRenderer.material;
         currentHealthPoints = maxHealthPoints;
-
-        rigidbody.linearDamping = linearDamping;
+        if (rigidbody != null)
+        {
+            rigidbody.linearDamping = linearDamping;
+        } 
     }
 
 }

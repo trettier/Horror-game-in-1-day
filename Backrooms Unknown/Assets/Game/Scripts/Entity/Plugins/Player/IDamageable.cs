@@ -3,9 +3,11 @@ using System;
 
 public interface IDamageable
 {
-    event Action OnDeath;
+    event Action Death;
 
-    void Initialize(IAnimatorController animatorController, ISoundController soundController, float maxHealthPoints);
+    event Action TakeDamage;
 
-    void RecieveDamage(float damage);
+    void Initialize(float maxHealthPoints);
+
+    void ReceiveDamage(float damage);
 }

@@ -17,7 +17,7 @@ public class AnimatorController : MonoBehaviour, IAnimatorController
         _material = material;
     }
 
-    public void UpdateAnimation(Vector2 direction)
+    public void UpdateAnimation(Vector2 direction, bool isMoving = true)
     {
 
         _direction = direction;

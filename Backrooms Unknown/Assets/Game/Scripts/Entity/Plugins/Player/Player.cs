@@ -7,10 +7,11 @@ public class Player : Entity
     private IPlayerMovementController _playerMovementController;
     private IAnimatorController _playerAnimatorController;
     private ISoundController _soundController;
-    public IStaminaController _staminaController;
-    public IHideSkill _hideSkill;
-    public IRunSkill _RunSkill;
-    public IDamageable _damageable;
+    private IStaminaController _staminaController;
+    private IHideSkill _hideSkill;
+    private IRunSkill _RunSkill;
+    private IDamageable _damageable;
+    public IInventoryManager _inventoryManager;
 
     private Vector2 _currentDirection = Vector2.down;
 
@@ -34,8 +35,10 @@ public class Player : Entity
         _RunSkill = GetComponent<IRunSkill>();
         _RunSkill.Initialize(_staminaController, _playerAnimatorController, _soundController, rigidbody, speed);
         _damageable = GetComponent<IDamageable>();
-        _damageable.Initialize(_playerAnimatorController, _soundController, maxHealthPoints);
-        _damageable.OnDeath += Death;
+        _damageable.Initialize(maxHealthPoints);
+        _damageable.Death += OnDeath;
+        _damageable.TakeDamage += OnTakeDamage;
+        _inventoryManager = GetComponent<IInventoryManager>();
 
     }
 
@@ -67,6 +70,11 @@ public class Player : Entity
             _hideSkill.TryToHideOrExit();
         }
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _inventoryManager.UseSelectedItem();
+        }
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             _currentDirection = _playerMovementController.GetCurrentDirection();
@@ -87,11 +95,6 @@ public class Player : Entity
             _hideSkill.IsObjectToHideNear(true);
             _hideSkill.SetObjectToHidePosition(collider.transform.position);
         }
-        //if (collider.CompareTag("Mirror"))
-        //{
-        //    collider.GetComponent<Environment>().SetOutlinedSprite();
-        //    playerNearMirror = true;
-        //}
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -101,24 +104,25 @@ public class Player : Entity
             collider.GetComponent<Environment>().SetDefaultSprite();
             _hideSkill.IsObjectToHideNear(false);
         }
-        //if (collider.CompareTag("Mirror"))
-        //{
-        //    collider.GetComponent<Environment>().SetDefaultSprite();
-        //    playerNearMirror = false;
-        //}
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            _damageable.RecieveDamage(maxHealthPoints);
+            _damageable.ReceiveDamage(maxHealthPoints);
         }
     }
 
-    private void Death()
+    private void OnDeath()
     {
         OnDeathEvent?.Invoke();
+    }
+
+    private void OnTakeDamage()
+    {
+        _playerAnimatorController.Flash();
+        _soundController.MakeHitSound();
     }
 
     //private IEnumerator DeathWithDelay()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class EnemyOldScript : MonoBehaviour
 {
     [SerializeField]
     protected float speed;
@@ -81,4 +81,4 @@ public abstract class Enemy : MonoBehaviour
 
 }
 
-public enum EnemyState { Idle, Patrolling, Investigating, Chasing, Spawning, Dying }
+public enum EnemyState { Idle, Patrolling, Investigating, Chasing, Spawning, TakingDamage, Dying }

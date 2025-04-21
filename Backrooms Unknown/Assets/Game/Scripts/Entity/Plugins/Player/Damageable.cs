@@ -5,30 +5,26 @@ using System.Collections.Generic;
 
 public class Damageable : MonoBehaviour, IDamageable
 {
-    IAnimatorController _animatorController;
-    ISoundController _soundController;
     private float _maxHealthPoints;
     private float _currentHealthPoints;
 
-    public event Action OnDeath;
+    public event Action Death;
+    public event Action TakeDamage;
 
-    public void Initialize(IAnimatorController animatorController, ISoundController soundController, float maxHealthPoints)
+    public void Initialize(float maxHealthPoints)
     {
-        _animatorController = animatorController;
         _maxHealthPoints = maxHealthPoints;
         _currentHealthPoints = maxHealthPoints;
-        _soundController = soundController;
     }
 
-    public void RecieveDamage(float damage)
+    public void ReceiveDamage(float damage)
     {
         _currentHealthPoints -= damage;
-        _animatorController.Flash();
-        _soundController.MakeHitSound();
+        TakeDamage?.Invoke();
 
         if (_currentHealthPoints < 0)
         {
-            OnDeath?.Invoke();
+            Death?.Invoke();
         }
     }
 }

@@ -33,7 +33,6 @@ public static class DelaunayTriangulation
                       + (cx * cx + cy * cy) * (ax * by - bx * ay);
 
             // Логируем определитель для отладки
-            Debug.Log($"Determinant: {det}");
 
             // Коррекция: Проверка с учетом погрешности
             return det > 0.0001f; // Погрешность для стабилизации
@@ -62,10 +61,10 @@ public static class DelaunayTriangulation
 
         // Логируем количество точек
         Debug.Log($"Points count: {points.Count}");
-        foreach (var point in points)
-        {
-            Debug.Log($"Point: {point}");
-        }
+        //foreach (var point in points)
+        //{
+        //    Debug.Log($"Point: {point}");
+        //}
 
         // Создаём супер-треугольник, покрывающий все точки
         float minX = float.MaxValue, minY = float.MaxValue;

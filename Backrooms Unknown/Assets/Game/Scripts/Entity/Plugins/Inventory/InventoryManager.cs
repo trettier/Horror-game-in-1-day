@@ -1,9 +1,9 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using Mirror;
 
-public class InventoryManager : MonoBehaviour, IInventoryManager
+public class InventoryManager : NetworkBehaviour, IInventoryManager
 {
     public static InventoryManager Instance;
 
@@ -36,6 +36,8 @@ public class InventoryManager : MonoBehaviour, IInventoryManager
 
     void Update()
     {
+        if (!isLocalPlayer) return;
+
         if (Input.inputString != null)
         {
             bool isNumber = int.TryParse(Input.inputString, out int number);

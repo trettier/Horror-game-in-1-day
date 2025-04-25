@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Mirror;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : NetworkBehaviour
 {
     [Header("Entity params")]
     [SerializeField] protected float maxHealthPoints;

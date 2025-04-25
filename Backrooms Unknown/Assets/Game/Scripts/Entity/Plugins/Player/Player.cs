@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 
 public class Player : Entity
 {
@@ -44,6 +45,8 @@ public class Player : Entity
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
+
         bool isPlayerOccupied = _hideSkill.IsHidden();
         if (isPlayerOccupied)
         {
@@ -60,6 +63,8 @@ public class Player : Entity
 
     private void Update()
     {
+        if (!isLocalPlayer) return;
+
         TryAction();
     }
 

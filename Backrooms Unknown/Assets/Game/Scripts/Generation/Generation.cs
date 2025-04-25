@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -6,26 +5,37 @@ using static DelaunayTriangulation;
 using static Prim;
 using UnityEngine.Tilemaps;
 
-public class Generation : MonoBehaviour
+using Mirror;
+using UnityEngine.UIElements;
+
+
+public class Generation : NetworkBehaviour
 {
+    [Header("Generation Settings")]
     [SerializeField] private int _roomsCount;
     [SerializeField] private int meanWidth = 10;
     [SerializeField] private int stdDevWidth = 2;
     [SerializeField] private int meanHeight = 8;
     [SerializeField] private int stdDevHeight = 2;
     [SerializeField] private int _radius;
-    //[SerializeField] private GameObject _cubePrefab;
-    //[SerializeField] private GameObject _hallwayPrefab;
+
+    [Header("Tilemap References")]
     [SerializeField] private Tilemap _tilemap;
     [SerializeField] private TileBase _roomTile;
     [SerializeField] private TileBase _hallwayTile;
     [SerializeField] private int _tileScale = 2;
 
+    //[Header("Dependencies")]
+    //[SerializeField] private NetworkTilemapSyncer _tilemapSyncer;
 
     private List<Room> _rooms;
     private List<Edge> _minimumSpanningTree;
     private List<Edge> _selectedEdges;
     private System.Random _random = new System.Random();
+
+    public List<Vector3Int> coordList = new List<Vector3Int>();
+
+    private bool _isGenerated = false;
 
     class Room
     {
@@ -46,7 +56,31 @@ public class Generation : MonoBehaviour
 
     void Start()
     {
-        Generate();
+        Debug.Log($"Is server: {isServer}");
+        Debug.Log("Start generation");
+        if (isServer)
+        {
+            Generate();
+        }
+    }
+
+    public void SendToClient(NetworkConnectionToClient conn)
+    {
+        // Передаём текущий список координат клиенту
+        TargetReceiveMap(conn, coordList.ToList());
+    }
+
+    [TargetRpc]
+    void TargetReceiveMap(NetworkConnection target, List<Vector3Int> coords)
+    {
+        Debug.Log($"[Client] Received {coords.Count} tiles from server");
+
+        foreach (var coord in coords)
+        {
+            _tilemap.SetTile(coord, _hallwayTile);
+        }
+
+        GetComponent<WallGenerator>().GenerateWalls();
     }
 
     void Generate()
@@ -60,6 +94,7 @@ public class Generation : MonoBehaviour
         CreateHallways();
         PathfindHallways();
         GetComponent<WallGenerator>().GenerateWalls();
+        _isGenerated = true;
     }
 
     void PlaceRooms()
@@ -124,10 +159,10 @@ public class Generation : MonoBehaviour
         _minimumSpanningTree = Prim.CreateMST(allEdges);
 
         // Draw MST edges
-        foreach (var edge in _minimumSpanningTree)
-        {
-            CreateLine(edge.vertex1, edge.vertex2, Color.green);
-        }
+        //foreach (var edge in _minimumSpanningTree)
+        //{
+        //    CreateLine(edge.vertex1, edge.vertex2, Color.green);
+        //}
     }
 
     void AddUniqueEdge(List<Edge> edges, HashSet<string> uniqueEdges, Vector2 a, Vector2 b)
@@ -151,7 +186,7 @@ public class Generation : MonoBehaviour
             if (!_minimumSpanningTree.Contains(edge) && _random.NextDouble() < 0.2f)
             {
                 _selectedEdges.Add(edge);
-                CreateLine(edge.vertex1, edge.vertex2, Color.blue);
+                //CreateLine(edge.vertex1, edge.vertex2, Color.blue);
             }
         }
 
@@ -276,6 +311,7 @@ public class Generation : MonoBehaviour
                 {
                     for (int dy = 0; dy < _tileScale; dy++)
                     {
+                        coordList.Add(tilePosition);
                         _tilemap.SetTile(tilePosition + new Vector3Int(dx, dy, 0), _roomTile);
                     }
                 }
@@ -292,6 +328,7 @@ public class Generation : MonoBehaviour
         {
             for (int dy = 0; dy < _tileScale; dy++)
             {
+                coordList.Add(tilePosition);
                 _tilemap.SetTile(tilePosition + new Vector3Int(dx, dy, 0), _hallwayTile);
             }
         }

@@ -1,6 +1,7 @@
 using UnityEngine;
+using Mirror;
 
-public class StaminaController : MonoBehaviour, IStaminaController
+public class StaminaController : NetworkBehaviour, IStaminaController
 {
     [SerializeField] private float _currentStamina = 100;
     [SerializeField] private float _maxStamina = 100;
@@ -9,6 +10,8 @@ public class StaminaController : MonoBehaviour, IStaminaController
     
     private void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
+
         if (_staminaRegenerationRest > 0)
         {
             _staminaRegenerationRest -= Time.deltaTime;

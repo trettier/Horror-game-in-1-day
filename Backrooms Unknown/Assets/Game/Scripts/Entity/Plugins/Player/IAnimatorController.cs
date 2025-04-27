@@ -13,4 +13,6 @@ public interface IAnimatorController
     void SlowDown();
 
     void Flash();
+
+    bool Param();
 }

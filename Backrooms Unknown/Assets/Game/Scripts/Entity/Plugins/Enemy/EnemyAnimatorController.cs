@@ -49,6 +49,11 @@ public class EnemyAnimatorController : MonoBehaviour, IAnimatorController
         StartCoroutine(FlashCoroutine());
     }
 
+    public bool Param()
+    {
+        return true;
+    }
+
     public IEnumerator FlashCoroutine()
     {
 

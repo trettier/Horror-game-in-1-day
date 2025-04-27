@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using System.Collections;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -13,6 +16,11 @@ public class TestNetworkManager : NetworkManager
     // Overrides the base singleton so we don't
     // have to cast to this type everywhere.
     public static new TestNetworkManager singleton => (TestNetworkManager)NetworkManager.singleton;
+
+    [SerializeField] private Generation levelGenerator;
+    [SerializeField] private NetworkTilemapSyncer networkTilemapSyncer;
+    [SerializeField] private GameObject spawnPoint;
+
 
     public static string GetLocalIPAddress()
     {
@@ -44,7 +52,7 @@ public class TestNetworkManager : NetworkManager
     public override void Awake()
     {
         base.Awake();
-        Debug.Log($"Is server: unknown");
+        Debug.Log($"Version 0.3.1");
         try
         {
             var swt = transport as Mirror.SimpleWeb.SimpleWebTransport;
@@ -61,6 +69,21 @@ public class TestNetworkManager : NetworkManager
         catch (Exception ex)
         {
             Debug.LogError($"[Server] Error in OnServerReady: {ex.Message}");
+        }
+
+    }
+    private IEnumerator StartLevelGeneratorWithDelay()
+    {
+        // Ждем один кадр или небольшое фиксированное время
+        yield return new WaitForSeconds(1f); // или yield return new WaitForSeconds(0.1f);
+        try
+        {
+            levelGenerator.OnStartServer();
+            spawnPoint.transform.position = levelGenerator.playersSpawnPoint * 2;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[generation] Error: {ex.Message}");
         }
     }
 
@@ -191,6 +214,16 @@ public class TestNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
+        Debug.Log("Player added");
+        StartCoroutine(SendLevelGeneratorWithDelay(conn));
+    }
+
+    private IEnumerator SendLevelGeneratorWithDelay(NetworkConnectionToClient conn)
+    {
+        // Ждем один кадр или небольшое фиксированное время
+        yield return new WaitForSeconds(5f); // или yield return new WaitForSeconds(0.1f);
+
+        networkTilemapSyncer.GenerateMap(conn, levelGenerator.coordList);
     }
 
     /// <summary>
@@ -276,7 +309,11 @@ public class TestNetworkManager : NetworkManager
     /// This is invoked when a server is started - including when a host is started.
     /// <para>StartServer has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartServer() { }
+    public override void OnStartServer() {
+        Debug.Log("OnStartServer status: working");
+        Debug.Log("Start generation on server");
+        StartCoroutine(StartLevelGeneratorWithDelay());
+    }
 
     /// <summary>
     /// This is invoked when the client is started.

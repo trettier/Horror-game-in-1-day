@@ -9,7 +9,7 @@ using Mirror;
 using UnityEngine.UIElements;
 
 
-public class Generation : NetworkBehaviour
+public class Generation : MonoBehaviour
 {
     [Header("Generation Settings")]
     [SerializeField] private int _roomsCount;
@@ -34,6 +34,7 @@ public class Generation : NetworkBehaviour
     private System.Random _random = new System.Random();
 
     public List<Vector3Int> coordList = new List<Vector3Int>();
+    public Vector2 playersSpawnPoint = Vector2.zero;
 
     private bool _isGenerated = false;
 
@@ -54,30 +55,27 @@ public class Generation : NetworkBehaviour
         }
     }
 
-    void Start()
+    public void OnStartServer()
     {
-        Debug.Log($"Is server: {isServer}");
-        Debug.Log("Start generation");
-        if (isServer)
-        {
-            Generate();
-        }
+        Debug.Log($"Generation started");
+        Generate();
+
     }
 
-    public void SendToClient(NetworkConnectionToClient conn)
-    {
-        // Передаём текущий список координат клиенту
-        TargetReceiveMap(conn, coordList.ToList());
-    }
 
-    [TargetRpc]
-    void TargetReceiveMap(NetworkConnection target, List<Vector3Int> coords)
+    public void ClientReceiveMap(List<Vector3Int> coords)
     {
         Debug.Log($"[Client] Received {coords.Count} tiles from server");
 
         foreach (var coord in coords)
         {
-            _tilemap.SetTile(coord, _hallwayTile);
+            for (int dx = 0; dx < _tileScale; dx++)
+            {
+                for (int dy = 0; dy < _tileScale; dy++)
+                {
+                    _tilemap.SetTile(coord + new Vector3Int(dx, dy, 0), _hallwayTile);
+                }
+            }
         }
 
         GetComponent<WallGenerator>().GenerateWalls();
@@ -141,6 +139,8 @@ public class Generation : NetworkBehaviour
                                                         r.bounds.center.x,
                                                         r.bounds.center.y)).ToList();
 
+
+        playersSpawnPoint = roomCenters[0];
         // Get Delaunay triangles
         List<DelaunayTriangulation.Triangle> delaunay = DelaunayTriangulation.BowyerWatson(roomCenters);
 

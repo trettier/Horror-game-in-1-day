@@ -43,6 +43,18 @@ public class Player : Entity
 
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+
+        // Найти камеру и сказать ей следовать за этим игроком
+        CameraFollowWithLead cameraFollow = FindObjectOfType<CameraFollowWithLead>();
+        if (cameraFollow != null)
+        {
+            cameraFollow.SetTarget(gameObject);
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!isLocalPlayer) return;
@@ -58,7 +70,10 @@ public class Player : Entity
         _playerMovementController.Move();
         _currentDirection = _playerMovementController.GetCurrentDirection();
         _playerAnimatorController.UpdateAnimation(_currentDirection);
-        _soundController.MakeStepSound(_currentDirection);
+        if (_soundController != null)
+        {
+            _soundController.MakeStepSound(_currentDirection);
+        }
     }
 
     private void Update()

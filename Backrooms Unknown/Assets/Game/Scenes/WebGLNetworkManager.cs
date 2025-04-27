@@ -199,16 +199,23 @@ public class WebGLNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         base.OnServerAddPlayer(conn);
-        StartCoroutine(SendLevelGeneratorWithDelay(conn));
+        //StartCoroutine(SendLevelGeneratorWithDelay(conn));
     }
 
-    private IEnumerator SendLevelGeneratorWithDelay(NetworkConnectionToClient conn)
-    {
-        // Ждем один кадр или небольшое фиксированное время
-        yield return new WaitForSeconds(0.1f); // или yield return new WaitForSeconds(0.1f);
-
-        levelGenerator.SendToClient(conn);
-    }
+    //private IEnumerator SendLevelGeneratorWithDelay(NetworkConnectionToClient conn)
+    //{
+    //    //// Ждем один кадр или небольшое фиксированное время
+    //    //yield return new WaitForSeconds(1f); // или yield return new WaitForSeconds(0.1f);
+    //    //try
+    //    //{
+    //    //    Debug.Log("Generation on client started");
+    //    //    levelGenerator.SendToClient(conn);
+    //    //}
+    //    //catch (Exception error)
+    //    //{
+    //    //    Debug.LogError($"Tried generation, but error: {error}");
+    //    //}
+    //}
 
     /// <summary>
     /// Called on the server when a client disconnects.
@@ -301,7 +308,7 @@ public class WebGLNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartClient() {
         levelGenerator.gameObject.SetActive(true);
-        levelGenerator.OnStartClient();
+        //levelGenerator.OnStartClient();
 
 
         try

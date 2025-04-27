@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 
 public class AnimatorController : MonoBehaviour, IAnimatorController
 {
@@ -61,6 +62,11 @@ public class AnimatorController : MonoBehaviour, IAnimatorController
     public void Flash()
     {
         StartCoroutine(FlashCoroutine());
+    }
+
+    public bool Param()
+    {
+        return _isMoving;
     }
 
     public IEnumerator FlashCoroutine()

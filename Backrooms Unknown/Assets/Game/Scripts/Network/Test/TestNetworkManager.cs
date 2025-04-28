@@ -75,7 +75,7 @@ public class TestNetworkManager : NetworkManager
     private IEnumerator StartLevelGeneratorWithDelay()
     {
         // Ждем один кадр или небольшое фиксированное время
-        yield return new WaitForSeconds(1f); // или yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(5f); // или yield return new WaitForSeconds(0.1f);
         try
         {
             levelGenerator.OnStartServer();
@@ -221,7 +221,7 @@ public class TestNetworkManager : NetworkManager
     private IEnumerator SendLevelGeneratorWithDelay(NetworkConnectionToClient conn)
     {
         // Ждем один кадр или небольшое фиксированное время
-        yield return new WaitForSeconds(5f); // или yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(2f); // или yield return new WaitForSeconds(0.1f);
 
         networkTilemapSyncer.GenerateMap(conn, levelGenerator.coordList);
     }

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class AnimatorController : MonoBehaviour, IAnimatorController
 {
@@ -25,28 +26,37 @@ public class AnimatorController : MonoBehaviour, IAnimatorController
 
         _isMoving = (_direction.x != 0 || _direction.y != 0);
         _animator.SetBool("Move", _isMoving);
-
+        Vector3 scale = transform.localScale;
         if (_direction.x > 0)
         {
-            _spriteRenderer.flipX = false;
+            //scale.x = 1;
+            _animator.SetInteger("Direction", 3);
+            //_spriteRenderer.flipX = false;
             _isMoving = true;
         }
         else if (_direction.x < 0)
         {
-            _spriteRenderer.flipX = true;
+            //scale.x = -1;
+            _animator.SetInteger("Direction", 1);
+            //_spriteRenderer.flipX = true;
         }
         else
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (mouseWorldPos.x - transform.position.x > 0)
             {
-                _spriteRenderer.flipX = false;
+                //scale.x = 1;
+                _animator.SetInteger("Direction", 3);
+                //_spriteRenderer.flipX = false;
             }
             else
             {
-                _spriteRenderer.flipX = true;
+                //scale.x = -1;
+                _animator.SetInteger("Direction", 1);
+                //_spriteRenderer.flipX = true;
             }
         }
+        transform.localScale = scale;
     }
 
     public void SpeedUp(float speedUp)

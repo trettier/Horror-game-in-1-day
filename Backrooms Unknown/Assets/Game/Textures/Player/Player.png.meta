@@ -108,6 +108,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -375,6 +388,138 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Player_12
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 48
+        width: 15
+        height: 22
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.09090909}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ab5b71b1550b6144973d02cf18e1eff
+      internalID: -545274524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_13
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 48
+        width: 12
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5, y: 0.09090909}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93f7aef19596fc440977d80a194916ac
+      internalID: 1101284733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_14
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 48
+        width: 15
+        height: 22
+      alignment: 9
+      pivot: {x: 0.53333336, y: 0.045454547}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cace98edb6630647aa4602cf76638c3
+      internalID: -550316214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_15
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 48
+        width: 13
+        height: 22
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0.045454547}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e5d2291f39c1dc4eaaef42ac1c9953d
+      internalID: 1171850560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_16
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 18
+        width: 13
+        height: 22
+      alignment: 9
+      pivot: {x: 0.4615385, y: 0.045454547}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b6aef457663109498eba9ceadb83fdd
+      internalID: -566635091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player_17
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 18
+        width: 12
+        height: 23
+      alignment: 9
+      pivot: {x: 0.5, y: 0.04347826}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d0642a3af5453b4f88ce613898e7b24
+      internalID: -1956045124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -393,6 +538,12 @@ TextureImporter:
       Player_1: 7364682651488144517
       Player_10: -1477136511
       Player_11: -1689319757
+      Player_12: -545274524
+      Player_13: 1101284733
+      Player_14: -550316214
+      Player_15: 1171850560
+      Player_16: -566635091
+      Player_17: -1956045124
       Player_2: -6287787046888575383
       Player_3: -1182821291677670348
       Player_4: -4709456396536258026

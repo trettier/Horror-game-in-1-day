@@ -64,16 +64,19 @@ public class Behavior : MonoBehaviour, IBehavior
                 _movementController.Move();
                 _animatorController.UpdateAnimation(currentDirection, _isMoving);
                 _fieldOfView.DetectTargets(currentDirection);
+                _soundController.MakeStepSound(currentDirection);
                 break;
             case EnemyState.Chasing:
                 _movementController.Move();
                 _animatorController.UpdateAnimation(currentDirection, _isMoving);
                 _fieldOfView.DetectTargets(currentDirection);
+                _soundController.MakeStepSound(currentDirection);
                 break;
             case EnemyState.Investigating:
                 currentDirection = _investigating.Investigate(currentDirection);
                 _animatorController.UpdateAnimation(currentDirection, _isMoving);
                 _fieldOfView.DetectTargets(currentDirection);
+                _soundController.MakeStepSound(Vector2.zero);
                 break;
             case EnemyState.TakingDamage:
                 _animatorController.UpdateAnimation(currentDirection, _isMoving);

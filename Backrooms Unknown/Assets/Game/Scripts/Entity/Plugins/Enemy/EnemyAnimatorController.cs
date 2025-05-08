@@ -25,12 +25,14 @@ public class EnemyAnimatorController : MonoBehaviour, IAnimatorController
 
         if (_direction.x > 0)
         {
-            _spriteRenderer.flipX = false;
+            //_spriteRenderer.flipX = false;
+            _animator.SetInteger("Direction", 3);
             _isMoving = true;
         }
         else if (_direction.x < 0)
         {
-            _spriteRenderer.flipX = true;
+            //_spriteRenderer.flipX = true;
+            _animator.SetInteger("Direction", 1);
         }
     }
 

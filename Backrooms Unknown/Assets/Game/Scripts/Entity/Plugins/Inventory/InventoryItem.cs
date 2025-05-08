@@ -29,7 +29,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void InitializeItem(Item newItem, GameObject player)
     {
         item = newItem;
-        image.sprite = item.image;
+        //image.sprite = item.image;
         item.itemController.Initialize(player);
         //RefreshCount();
     }

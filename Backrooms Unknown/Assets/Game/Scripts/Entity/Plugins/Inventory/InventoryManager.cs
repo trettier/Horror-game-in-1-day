@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
 
-public class InventoryManager : NetworkBehaviour, IInventoryManager
+public class InventoryManager : NetworkBehaviour
 {
     public static InventoryManager Instance;
 

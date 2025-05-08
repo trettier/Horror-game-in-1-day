@@ -129,11 +129,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 45
-        y: 379
-        width: 12
-        height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 188
+        width: 52
+        height: 35
+      alignment: 9
+      pivot: {x: 0.4423077, y: 0.114285715}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -150,12 +150,12 @@ TextureImporter:
       name: Player 1_1
       rect:
         serializedVersion: 2
-        x: 63
-        y: 377
-        width: 73
-        height: 61
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 112
+        y: 185
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.42307693, y: 0.1891892}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -326,12 +326,12 @@ TextureImporter:
       name: Player 1_9
       rect:
         serializedVersion: 2
-        x: 57
-        y: 247
-        width: 26
-        height: 8
+        x: 55
+        y: 245
+        width: 30
+        height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -340,6 +340,116 @@ TextureImporter:
       bones: []
       spriteID: 5ccbbb08f81a63d4ba3133554695b26f
       internalID: -1819357283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player 1_10
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 186
+        width: 51
+        height: 36
+      alignment: 9
+      pivot: {x: 0.4117647, y: 0.16666667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0151470de7b71d4d92139529ec85567
+      internalID: 390850383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player 1_11
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 186
+        width: 48
+        height: 36
+      alignment: 9
+      pivot: {x: 0.4375, y: 0.16666667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ec3b0c3b1c6807478d0128100b99fdf
+      internalID: 2034614639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player 1_12
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 130
+        width: 52
+        height: 38
+      alignment: 9
+      pivot: {x: 0.3269231, y: 0.15789473}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e82326ef72d94e41935b895598c21c1
+      internalID: 892997600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player 1_13
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 132
+        width: 52
+        height: 36
+      alignment: 9
+      pivot: {x: 0.3269231, y: 0.16666667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d7e6b93ef63f5b47a9a49e73b1347f3
+      internalID: -487429554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player 1_14
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 131
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.3269231, y: 0.16216217}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3da0ab37aadb3524ba43edc6e9552a5c
+      internalID: 403052852
       vertices: []
       indices: 
       edges: []
@@ -360,6 +470,11 @@ TextureImporter:
     nameFileIdTable:
       Player 1_0: 1993603765
       Player 1_1: 789753939
+      Player 1_10: 390850383
+      Player 1_11: 2034614639
+      Player 1_12: 892997600
+      Player 1_13: -487429554
+      Player 1_14: 403052852
       Player 1_2: 2036009856
       Player 1_3: -1539046453
       Player 1_4: -404072546

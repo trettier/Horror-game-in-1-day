@@ -47,4 +47,9 @@ public class StandardMovementController : MonoBehaviour, IMovementController
     {
 
     }
+
+    public void SetPatrolPoint(PatrolPoint point)
+    {
+        _currentPatrolPoint = point;
+    }
 }

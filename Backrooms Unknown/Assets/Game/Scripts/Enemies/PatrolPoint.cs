@@ -5,14 +5,13 @@ using UnityEngine.Rendering.Universal;
 
 public class PatrolPoint : MonoBehaviour
 {
-    [SerializeField]
-    protected List<PatrolPoint> patrolObjects;
+    public List<PatrolPoint> patrolObjects;
 
 
     private void Awake()
     {
 
-        GetComponent<Light2D>().enabled = false;
+        //GetComponent<Light2D>().enabled = false;
 
     }
 

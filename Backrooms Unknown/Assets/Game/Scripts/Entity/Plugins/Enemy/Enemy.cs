@@ -11,11 +11,14 @@ public class Enemy : Entity
     public delegate void DeathEventHandler();
     public event DeathEventHandler OnDeathEvent;
 
+    public PatrolPoint StartPatrolPoint;
+
     private void Start()
     {
         base.Start();
         _movementController = GetComponent<IMovementController>();
         _movementController.Initialize(rigidbody, speed);
+        SetPatrolPoint(StartPatrolPoint);
         _animatorController = GetComponent<IAnimatorController>();
         _animatorController.Initialize(animator, spriteRenderer, material);
         _soundController = GetComponent<ISoundController>();
@@ -30,12 +33,20 @@ public class Enemy : Entity
     }
     
     private void FixedUpdate()
-    {
-        _behavior.UpdateAction();
+    {   
+        if (isServer)
+        {
+            _behavior.UpdateAction();
+        }
     }
 
     private void Death()
     {
         OnDeathEvent?.Invoke();
+    }
+
+    public void SetPatrolPoint(PatrolPoint point)
+    {
+        _movementController.SetPatrolPoint(point);
     }
 }

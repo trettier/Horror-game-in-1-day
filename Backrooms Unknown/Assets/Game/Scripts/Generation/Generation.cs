@@ -4,11 +4,20 @@ using System.Linq;
 using static DelaunayTriangulation;
 using static Prim;
 using UnityEngine.Tilemaps;
+using System;
 
-using Mirror;
-using UnityEngine.UIElements;
+[System.Serializable]
+public struct DebugLine
+{
+    public Vector2 start;
+    public Vector2 end;
 
-
+    public DebugLine(Vector2 start, Vector2 end)
+    {
+        this.start = start;
+        this.end = end;
+    }
+}
 public class Generation : MonoBehaviour
 {
     [Header("Generation Settings")]
@@ -35,6 +44,11 @@ public class Generation : MonoBehaviour
 
     public List<Vector3Int> coordList = new List<Vector3Int>();
     public Vector2 playersSpawnPoint = Vector2.zero;
+
+
+    public List<DebugLine> debugLines = new List<DebugLine>();
+
+    public List<Vector2> roomCenters;
 
     private bool _isGenerated = false;
 
@@ -99,8 +113,8 @@ public class Generation : MonoBehaviour
     {
         for (int i = 0; i < _roomsCount; i++)
         {
-            float angle = Random.Range(0f, Mathf.PI * 2);
-            float radius = Mathf.Sqrt(Random.Range(0f, 1f)) * _radius;
+            float angle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
+            float radius = Mathf.Sqrt(UnityEngine.Random.Range(0f, 1f)) * _radius;
             Vector2Int position = new Vector2Int(
                 Mathf.RoundToInt(Mathf.Cos(angle) * radius),
                 Mathf.RoundToInt(Mathf.Sin(angle) * radius));
@@ -135,12 +149,12 @@ public class Generation : MonoBehaviour
     void Triangulate()
     {
         Debug.Log($"Room count: {_rooms.Count}");
-        List<Vector2> roomCenters = _rooms.Select(r => new Vector2(
+        roomCenters = _rooms.Select(r => new Vector2(
                                                         r.bounds.center.x,
                                                         r.bounds.center.y)).ToList();
 
 
-        playersSpawnPoint = roomCenters[0];
+        playersSpawnPoint = roomCenters[0] * 2;
         // Get Delaunay triangles
         List<DelaunayTriangulation.Triangle> delaunay = DelaunayTriangulation.BowyerWatson(roomCenters);
 
@@ -158,11 +172,6 @@ public class Generation : MonoBehaviour
         // Create MST from all edges
         _minimumSpanningTree = Prim.CreateMST(allEdges);
 
-        // Draw MST edges
-        //foreach (var edge in _minimumSpanningTree)
-        //{
-        //    CreateLine(edge.vertex1, edge.vertex2, Color.green);
-        //}
     }
 
     void AddUniqueEdge(List<Edge> edges, HashSet<string> uniqueEdges, Vector2 a, Vector2 b)
@@ -192,6 +201,13 @@ public class Generation : MonoBehaviour
 
         // Combine MST with selected edges
         _selectedEdges.AddRange(_minimumSpanningTree);
+
+        // Draw Combine MST with selected edges edges
+        foreach (var edge in _selectedEdges)
+        {
+            debugLines.Add(new DebugLine(edge.vertex1 * 2, edge.vertex2 * 2));
+
+        }
     }
 
     void PathfindHallways()
@@ -205,7 +221,7 @@ public class Generation : MonoBehaviour
             Vector2Int current = start;
             corridorTiles.Add(current);
 
-            bool horizontalFirst = Random.value > 0.5f;
+            bool horizontalFirst = UnityEngine.Random.value > 0.5f;
 
             if (horizontalFirst)
             {
@@ -262,7 +278,7 @@ public class Generation : MonoBehaviour
     }
 
 
-    void CreateLine(Vector2 start, Vector2 end, Color color)
+    public void CreateLine(Vector2 start, Vector2 end, Color color)
     {
         GameObject lineObj = new GameObject("Line");
         LineRenderer lr = lineObj.AddComponent<LineRenderer>();
@@ -276,6 +292,7 @@ public class Generation : MonoBehaviour
         lr.material = new Material(Shader.Find("Sprites/Default"));
         lr.startColor = color;
         lr.endColor = color;
+        lr.sortingLayerName = "UI";
     }
 
     //void PlaceCube(Vector2Int location, Vector2Int size)
@@ -338,8 +355,8 @@ public class Generation : MonoBehaviour
 
     int NextGaussian(int mean, int stdDev)
     {
-        float u1 = 1.0f - Random.value;
-        float u2 = 1.0f - Random.value;
+        float u1 = 1.0f - UnityEngine.Random.value;
+        float u2 = 1.0f - UnityEngine.Random.value;
         float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
                             Mathf.Sin(2.0f * Mathf.PI * u2);
         return (int)(mean + stdDev * randStdNormal);

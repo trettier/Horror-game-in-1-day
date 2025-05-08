@@ -79,7 +79,7 @@ public class FieldOfView : MonoBehaviour, IFieldOfView
 
                 if (hit2D.collider != null && hit2D.collider.CompareTag(_targetTag))
                 {
-                    playerFound?.Invoke(hit2D.transform.position);
+                    playerFound.Invoke(hit2D.point);
                 }
             }
         }

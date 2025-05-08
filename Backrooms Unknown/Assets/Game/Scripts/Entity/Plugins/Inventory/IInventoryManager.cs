@@ -3,12 +3,16 @@
 public interface IInventoryManager
 {
 
-    bool AddItem(Item item);
+    void AddItem(Item item);
 
-    Item GetSelectedItem();
+    void TakeItem();
 
-    void UseSelectedItem();
+    void ThrowItem();
 
-    void ChangeSelectedSlot(int newValue);
+    //Item GetSelectedItem();
+
+    //void UseSelectedItem();
+
+    //void ChangeSelectedSlot(int newValue);
 
 }

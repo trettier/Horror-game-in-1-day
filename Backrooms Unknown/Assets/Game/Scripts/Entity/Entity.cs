@@ -12,7 +12,6 @@ public abstract class Entity : NetworkBehaviour
     [SerializeField] protected DirectionHandler directionHandler;
 
     [Header("Entity components")]
-    protected Transform transform;
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rigidbody;
     protected Animator animator;

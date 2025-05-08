@@ -92,7 +92,12 @@ public class Player : Entity
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _inventoryManager.UseSelectedItem();
+            _inventoryManager.TakeItem();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _inventoryManager.ThrowItem();
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -115,6 +120,12 @@ public class Player : Entity
             _hideSkill.IsObjectToHideNear(true);
             _hideSkill.SetObjectToHidePosition(collider.transform.position);
         }
+        else if (collider.CompareTag("Item"))
+        {
+            Item item = collider.GetComponent<Item>();
+            item.OnPlayerEnterTrigger();
+            _inventoryManager.AddItem(item);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -123,6 +134,10 @@ public class Player : Entity
         {
             collider.GetComponent<Environment>().SetDefaultSprite();
             _hideSkill.IsObjectToHideNear(false);
+        }
+        else if (collider.CompareTag("Item"))
+        {
+            collider.GetComponent<Item>().OnPlayerExitTrigger();
         }
     }
 

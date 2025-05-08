@@ -9,6 +9,8 @@ TagManager:
   - Mirror
   - ObjectToHide
   - PlayerHidden
+  - Item
+  - ItemInHand
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Walls
+  - lighter
   - 
   - 
   - 

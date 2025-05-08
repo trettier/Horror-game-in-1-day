@@ -12,5 +12,7 @@ public interface IMovementController
 
     void SetTargetPosition(Vector2 targetPosition);
 
+    void SetPatrolPoint(PatrolPoint point);
+
     Vector2 GetCurrentDirection();
 }

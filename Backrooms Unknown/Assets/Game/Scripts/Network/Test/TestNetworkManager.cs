@@ -5,6 +5,9 @@ using Mirror;
 using System.Collections;
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEngine.AI;
+using NavMeshPlus.Components;
+using static UnityEngine.EventSystems.EventTrigger;
 
 /*
 	Documentation: https://mirror-networking.gitbook.io/docs/components/network-manager
@@ -20,6 +23,10 @@ public class TestNetworkManager : NetworkManager
     [SerializeField] private Generation levelGenerator;
     [SerializeField] private NetworkTilemapSyncer networkTilemapSyncer;
     [SerializeField] private GameObject spawnPoint;
+    [SerializeField] private GameObject Enemy;
+    [SerializeField] private GameObject Lamp;
+    [SerializeField] private EnemyMapGenerator enemyMapGenerator;
+    [SerializeField] private NavMeshSurface navMeshSurface2D;
 
 
     public static string GetLocalIPAddress()
@@ -52,7 +59,7 @@ public class TestNetworkManager : NetworkManager
     public override void Awake()
     {
         base.Awake();
-        Debug.Log($"Version 0.3.1");
+        Debug.Log($"Version 0.4.19");
         try
         {
             var swt = transport as Mirror.SimpleWeb.SimpleWebTransport;
@@ -72,19 +79,59 @@ public class TestNetworkManager : NetworkManager
         }
 
     }
-    private IEnumerator StartLevelGeneratorWithDelay()
+    private IEnumerator InitializeGameWorld()
     {
         // Ждем один кадр или небольшое фиксированное время
         yield return new WaitForSeconds(5f); // или yield return new WaitForSeconds(0.1f);
         try
         {
             levelGenerator.OnStartServer();
-            spawnPoint.transform.position = levelGenerator.playersSpawnPoint * 2;
+            spawnPoint.transform.position = levelGenerator.playersSpawnPoint;
+            enemyMapGenerator.GeneratePatrolPoints(levelGenerator.debugLines);
+            enemyMapGenerator.DebugMap(levelGenerator.debugLines);
+            navMeshSurface2D.BuildNavMesh();
+
+
         }
         catch (Exception ex)
         {
             Debug.LogError($"[generation] Error: {ex.Message}");
         }
+
+        GameObject enemy = Instantiate(Enemy, enemyMapGenerator.randomPoint.gameObject.transform.position, Quaternion.identity);
+        try
+        {
+            NetworkServer.Spawn(enemy);
+            Debug.Log(enemyMapGenerator.randomPoint);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Enemy spawn] Error: {ex.Message}");
+        }
+
+        try
+        {
+            enemy.GetComponent<Enemy>().StartPatrolPoint = enemyMapGenerator.randomPoint;
+            Debug.Log("Enemy spawned");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Enemy StartPatrolPoint] Error: {ex.Message}");
+        }
+        try
+        {
+            for (int i = 0; i < levelGenerator.roomCenters.Count; i++)
+            {
+                GameObject lamp = Instantiate(Lamp, (Vector3)levelGenerator.roomCenters[i] * 2, Quaternion.identity);
+                NetworkServer.Spawn(lamp);
+                Debug.Log("Lamps spawned");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Lamps spawn] Error: {ex.Message}");
+        }
+
     }
 
     #region Unity Callbacks
@@ -213,7 +260,7 @@ public class TestNetworkManager : NetworkManager
     /// <param name="conn">Connection from client.</param>
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        base.OnServerAddPlayer(conn);
+
         Debug.Log("Player added");
         StartCoroutine(SendLevelGeneratorWithDelay(conn));
     }
@@ -221,8 +268,8 @@ public class TestNetworkManager : NetworkManager
     private IEnumerator SendLevelGeneratorWithDelay(NetworkConnectionToClient conn)
     {
         // Ждем один кадр или небольшое фиксированное время
-        yield return new WaitForSeconds(2f); // или yield return new WaitForSeconds(0.1f);
-
+        yield return new WaitForSeconds(6f);
+        base.OnServerAddPlayer(conn);
         networkTilemapSyncer.GenerateMap(conn, levelGenerator.coordList);
     }
 
@@ -312,7 +359,7 @@ public class TestNetworkManager : NetworkManager
     public override void OnStartServer() {
         Debug.Log("OnStartServer status: working");
         Debug.Log("Start generation on server");
-        StartCoroutine(StartLevelGeneratorWithDelay());
+        StartCoroutine(InitializeGameWorld());
     }
 
     /// <summary>
